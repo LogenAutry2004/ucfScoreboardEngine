@@ -1,0 +1,72 @@
+---
+teams:
+- name: WhiteTeam
+  color: White
+  users:
+  - username: whiteteamuser
+    password: Password123!@#
+- name: RedTeam
+  color: Red
+  users:
+  - username: redteamuser
+    password: Password123!@#
+- name: TestTeam
+  color: Blue
+  users:
+  - username: testTeamUser1
+    password: Password123!@#
+  services:
+  - name: RDP
+    check_name: RDPCheck
+    host: 198.18.3.184
+    port: 3389
+    points: 100
+    accounts:
+    - username: testUser
+      password: Password1234!@#$
+    environments:
+    - matching_content: "Authentication only, exit status 0"
+  - name: LDAP
+    check_name: LDAPCheck
+    host: 198.18.3.184
+    port: 389
+    points: 50
+    accounts:
+    - username: testUser
+      password: Password1234!@#$
+    environments:
+    - matching_content: "result: 0 Success"
+      properties:
+      - name: domain
+        value: score.check
+      - name: base_dn
+        value: dc=score,dc=check
+  - name: ICMP
+    check_name: ICMPCheck
+    host: 198.18.3.184
+    port: 0
+    points: 25
+    environments:
+    - matching_content: 1 packets transmitted, 1 received
+    
+  - name: WinRM
+    check_name: WinRMCheck
+    host: 198.18.3.184
+    port: 0
+    points: 100
+    accounts:
+    - username: testUser
+      password: Password1234!@#$
+    environments:
+    - matching_content: "^SUCCESS"
+      properties:
+      - name: commands
+        value: ipconfig /all;whoami
+  
+flags:
+  - type: file
+    platform: nix
+    perm: user
+    data:
+        path: "/tmp/flag"
+        content: "hi"
