@@ -97,4 +97,7 @@ USER engine
 COPY scoring_engine /app/scoring_engine
 RUN pip install -e .
 
+# NopCommerce Check
+RUN pip install bs4
+
 CMD ["./wait-for-port.sh", "redis:6379", "/app/bin/worker"]
